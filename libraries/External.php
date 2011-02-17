@@ -55,9 +55,11 @@ class CI_External {
 			
 			//set assets for the current uri
 			//loop backwards through the uri to find the most specific route
-			$uri = $this->CI->uri->rsegment_array();
+			$uri = $this->CI->uri->segment_array();
+			if(empty($uri)) $uri = array('home');
+			
 			$found = false;
-			for($i = count($uri)-1; $i >= 0; $i--){
+			for($i = count($uri); $i > 0; $i--){
 				$uri_string = implode('/', $uri);
 				if(isset($this->_routes[$uri_string])){
 					$found = true;
