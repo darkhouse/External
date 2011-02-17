@@ -15,6 +15,7 @@
 class CI_External {
 	
 	private $_routes;
+	private $_default_cache = false;
 	private $_assets = array();
 	
 	/**
@@ -38,6 +39,12 @@ class CI_External {
 	 * @return	void
 	 */
 	public function initialize($config){
+		//get default cache setting
+		if(isset($config['default_cache'])){
+			$this->_default_cache = $config['default_cache'];
+		}
+		
+		//get routes
 		if(isset($config['routes'])){
 			$this->_routes = $config['routes'];
 			
@@ -92,7 +99,9 @@ class CI_External {
 			//set default type, weight and media (if asset type is css)
 			if(!isset($options['type'])) $options['type'] = 'file';
 			if(!isset($options['weight'])) $options['weight'] = 999;
+			if(!isset($options['cache'])) $options['cache'] = $this->_default_cache;
 			if(!isset($options['media']) && $asset == 'css') $options['media'] = 'all';
+			if(!isset($options['rel']) && $asset == 'css') $options['rel'] = 'stylesheet';
 			
 			foreach($groups as $group){
 				//if asset group doesn't exist, create it
@@ -163,10 +172,10 @@ class CI_External {
 				case 'css':
 					switch($asset['type']){
 						case 'file':
-							$output[] = '<link rel="stylesheet" href="'.$asset['data'].'" media="'.$asset['media'].'" type="text/css" />';
+							$output[] = '<link rel="'.$asset['rel'].'" href="'.$asset['data'].$this->_set_cache($asset).'" media="'.$asset['media'].'" type="text/css" />';
 							break;
 						case 'less':
-							$output[] = '<link rel="stylesheet/less" href="'.$asset['data'].'" media="'.$asset['media'].'" type="text/css" />';
+							$output[] = '<link rel="stylesheet/less" href="'.$asset['data'].$this->_set_cache($asset).'" media="'.$asset['media'].'" type="text/css" />';
 							break;
 						case 'custom':
 							$output[] = '<style type="text/css" media="'.$asset['media'].'">';
@@ -179,7 +188,7 @@ class CI_External {
 				case 'js':
 					switch($asset['type']){
 						case 'file':
-							$output[] = '<script src="'.$asset['data'].'" type="text/javascript"></script>';
+							$output[] = '<script src="'.$asset['data'].$this->_set_cache($asset).'" type="text/javascript"></script>';
 							break;
 						case 'custom':
 							$output[] = '<script type="text/javascript">';
@@ -288,6 +297,13 @@ class CI_External {
 	}
 	
 	// --------------------------------------------------------------------
+	
+	//set cache
+	private function _set_cache($asset){
+		if(!in_array($asset['type'], array('file', 'less'))) return '';
+		$append = (strpos($asset['data'], '?') !== false ? '&' : '?');
+		return ($asset['cache'] === false ? $append.time() : '');
+	}
 	
 	//sort multidimensional array, used for sorting assets by weight
 	private function _multisort(){

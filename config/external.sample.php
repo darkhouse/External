@@ -71,3 +71,18 @@ $config['routes'] = array(
 		)
 	)
 );
+
+
+/*
+| -------------------------------------------------------------------
+| Cache Busting
+| -------------------------------------------------------------------
+| Set the default cache value. If set to false, it will append a
+| timestamp to any asset without cache set to true. If set to true
+| you must set all assets to cache => false if you don't want them 
+| cached.
+|
+*/
+
+$config['default_cache'] = false;
+
