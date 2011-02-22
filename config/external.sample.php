@@ -26,7 +26,7 @@
 $config['routes'] = array(
 	'all' => array(
 		'css' => array(
-			array('data' => 'css/reset.css', 'group' => 'head', 'weight' => 1)
+			array('data' => 'css/reset.css', 'group' => 'head', 'weight' => 1, 'cache' => false)
 		),
 		'js' => array(
 			array('data' => 'js/less-1.0.41.min.js', 'group' => 'head', 'weight' => 10),
@@ -36,10 +36,10 @@ $config['routes'] = array(
 	),
 	'default' => array(
 		'css' => array(
-			array('data' => 'css/interior.less', 'type' => 'less', 'group' => 'head,interior', 'weight' => 1)
+			array('data' => 'css/interior.less', 'type' => 'less', 'group' => 'head,interior', 'weight' => 1, 'cache' => false)
 		),
 		'js' => array(
-			array('data' => "js/login.js", 'group' => 'foot', 'weight' => 10),
+			array('data' => "js/login.js", 'group' => 'foot', 'weight' => 10, 'cache' => false),
 			array('data' => "var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
 				(function(d, t) {
 					var g = d.createElement(t),
@@ -52,11 +52,11 @@ $config['routes'] = array(
 	),
 	'home' => array(
 		'css' => array(
-			array('data' => 'css/home.less', 'type' => 'less', 'group' => 'head', 'weight' => 1)
+			array('data' => 'css/home.less', 'type' => 'less', 'group' => 'head', 'weight' => 1, 'cache' => false)
 		),
 		'js' => array(
 			array('data' => 'http://maps.google.com/maps/api/js?sensor=false', 'group' => 'foot,google', 'weight' => 5),
-			array('data' => 'js/map.js', 'group' => 'foot,google', 'weight' => 5)
+			array('data' => 'js/map.js', 'group' => 'foot,google', 'weight' => 5, 'cache' => false)
 		),
 		'inherit' => array(
 			'default' => array('assets' => 'all', 'exclude' => 'interior')
@@ -64,7 +64,7 @@ $config['routes'] = array(
 	),
 	'admin' => array(
 		'css' => array(
-			array('data' => 'css/admin.less', 'type' => 'less', 'group' => 'head', 'weight' => 5)
+			array('data' => 'css/admin.less', 'type' => 'less', 'group' => 'head', 'weight' => 5, 'cache' => false)
 		),
 		'js' => array(
 			array('data' => 'js/jquery-ui-1.8.9.custom.min.js', 'group' => 'jquery', 'weight' => 5)
@@ -84,5 +84,5 @@ $config['routes'] = array(
 |
 */
 
-$config['default_cache'] = false;
+$config['default_cache'] = true;
 
