@@ -54,5 +54,5 @@ $config['routes'] = array(
 |
 */
 
-$config['default_cache'] = false;
+$config['default_cache'] = true;
 

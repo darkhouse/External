@@ -300,30 +300,39 @@ class CI_External {
 	
 	// --------------------------------------------------------------------
 	
-	//set cache
+	//set cache, modified to check file modification time so that it busts
+	//the cache only when necessary. Thanks to CroNiX on the CI forums for
+	//his suggestion.
 	private function _set_cache($asset){
-		if(!in_array($asset['type'], array('file', 'less'))) return '';
+		if(!in_array($asset['type'], array('file', 'less')) || $asset['cache'] !== false) return '';
+		$local = (substr($asset['data'], 0, 4) != 'http' || !strpos($asset['data'], base_url()));
+		$time = time();
+		if($local) $time = filemtime($asset['data']);
 		$append = (strpos($asset['data'], '?') !== false ? '&' : '?');
-		return ($asset['cache'] === false ? $append.time() : '');
+		return $append.$time;
 	}
 	
 	//sort multidimensional array, used for sorting assets by weight
+	//rewritten by jarthur on the CI forums due to a bug
 	private function _multisort(){
-		$args = func_get_args();
-		$data = array_shift($args);
-		foreach ($args as $n => $field) {
-			if (is_string($field)) {
-				$tmp = array();
-				foreach ($data as $key => $row){
-					$tmp[$key] = $row[$field];
-				}
-				$args[$n] = $tmp;
-			}
-		}
-		$args[] = &$data;
-		call_user_func_array('array_multisort', $args);
-		return array_pop($args);
-	}
+        $args = func_get_args();
+        $data = array_shift($args);
+        if (!is_array($data))
+            return false;
+        $multisort_params = array();
+        foreach ($args as $n => $field) {
+            if (is_string($field)) {
+                ${"tmp_$n"} = array();
+                foreach ($data as $key => $row){
+                    ${"tmp_$n"}[$key] = $row[$field];
+                }
+                $multisort_params[$n] = &${"tmp_$n"};
+            }
+        }
+        $multisort_params[] = &$data;
+        call_user_func_array('array_multisort',$multisort_params);
+        return array_pop($multisort_params);
+    }  
 	
 }
 
