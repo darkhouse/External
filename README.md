@@ -41,7 +41,7 @@ Every asset requires a data key. This is what will be loaded into the browser, i
 
 ###Group
 
-Grouping assets is a very important feature. It allows you to place certain assets in one part of your file, and other assets elsewhere. For instance, you might want to load some assets in the <head> and others just before the </body>. Consider this:
+Grouping assets is a very important feature. It allows you to place certain assets in one part of your file, and other assets elsewhere. For instance, you might want to load some assets in the <head> and others just before the &lt;/body&gt;. Consider this:
 	
 	'home' => array(
 		'css' => array(
@@ -77,7 +77,7 @@ The order in which you write your assets in the config is not necessarily the or
 		)
 	)
 	
-Here, when our homepage is loading, and assuming it's outputing the head group separate from the foot group, it will output the reset.css file, then the home.css file and finally jquery.js in the head, in that order. It will then output the google maps api script, and the map.js file above the </body>.
+Here, when our homepage is loading, and assuming it's outputing the head group separate from the foot group, it will output the reset.css file, then the home.css file and finally jquery.js in the head, in that order. It will then output the google maps api script, and the map.js file above the &lt;/body&gt;.
 
 ###Type
 
